@@ -1,7 +1,26 @@
 import React, { useEffect, useState } from "react";
 import api from "../api/axios";
-import CustomerForm from "../components/CustomerForm";
-import "./ManageCustomers.css";
+import Box from '@mui/material/Box';
+
+import {
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Button,
+  Typography,
+  Dialog,
+  DialogTitle,
+  DialogActions,
+  TextField,
+  Stack,
+} from "@mui/material";
+
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 type Customer = {
   id: number;
@@ -12,8 +31,9 @@ type Customer = {
 
 const ManageCustomers: React.FC = () => {
   const [customers, setCustomers] = useState<Customer[]>([]);
-  const [form, setForm] = useState({ name: "", email: "" });
+  const [open, setOpen] = useState(false);
   const [editingId, setEditingId] = useState<number | null>(null);
+  const [form, setForm] = useState({ name: "", email: "" });
 
   const loadCustomers = async () => {
     const res = await api.get<Customer[]>("/customers");
@@ -24,21 +44,26 @@ const ManageCustomers: React.FC = () => {
     loadCustomers();
   }, []);
 
-  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
-  };
-
-  const createCustomer = async () => {
-    await api.post("/customers", form);
-    setForm({ name: "", email: "" });
-    loadCustomers();
-  };
-
-  const updateCustomer = async () => {
-    if (!editingId) return;
-    await api.put(`/customers/${editingId}`, form);
+  const openCreateDialog = () => {
     setEditingId(null);
     setForm({ name: "", email: "" });
+    setOpen(true);
+  };
+
+  const openEditDialog = (c: Customer) => {
+    setEditingId(c.id);
+    setForm({ name: c.name, email: c.email });
+    setOpen(true);
+  };
+
+  const handleSave = async () => {
+    if (editingId) {
+      await api.put(`/customers/${editingId}`, form);
+    } else {
+      await api.post("/customers", form);
+    }
+
+    setOpen(false);
     loadCustomers();
   };
 
@@ -47,50 +72,83 @@ const ManageCustomers: React.FC = () => {
     loadCustomers();
   };
 
-  const startEdit = (customer: Customer) => {
-    setEditingId(customer.id);
-    setForm({ name: customer.name, email: customer.email });
-  };
-
   return (
-    <div className="manage-customers">
-      <h1 className="manage-customers__title">Manage Customers</h1>
+    <div style={{ padding: 30 }}>
+      <Stack direction="row" justifyContent="space-between" alignItems="center">
+        <Typography variant="h4">Manage Customers</Typography>
+        <Button variant="contained" onClick={openCreateDialog}>
+          Add Customer
+        </Button>
+      </Stack>
 
-      <CustomerForm
-        form={form}
-        onChange={onChange}
-        onSubmit={editingId ? updateCustomer : createCustomer}
-        editing={!!editingId}
-      />
+      <TableContainer component={Paper} sx={{ mt: 3 }}>
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableCell><b>Name</b></TableCell>
+              <TableCell><b>Email</b></TableCell>
+              <TableCell><b>Created</b></TableCell>
+              <TableCell><b>Actions</b></TableCell>
+            </TableRow>
+          </TableHead>
 
-      <table className="manage-customers__table">
-        <thead>
-          <tr>
-            <th className="manage-customers__th">Name</th>
-            <th className="manage-customers__th">Email</th>
-            <th className="manage-customers__th">Created</th>
-            <th className="manage-customers__th">Actions</th>
-          </tr>
-        </thead>
+          <TableBody>
+            {customers.map((c) => (
+              <TableRow key={c.id}>
+                <TableCell>{c.name}</TableCell>
+                <TableCell>{c.email}</TableCell>
+                <TableCell>{new Date(c.createdAt).toLocaleString()}</TableCell>
+                <TableCell>
+                  <Stack direction="row" spacing={1}>
+                    <Button
+                      variant="outlined"
+                      size="small"
+                      startIcon={<EditIcon />}
+                      onClick={() => openEditDialog(c)}
+                    >
+                      Edit
+                    </Button>
 
-        <tbody>
-          {customers.map((c) => (
-            <tr key={c.id} className="manage-customers__row">
-              <td className="manage-customers__td">{c.name}</td>
-              <td className="manage-customers__td">{c.email}</td>
-              <td className="manage-customers__td">{new Date(c.createdAt).toLocaleString()}</td>
-              <td className="manage-customers__td">
-                <button className="manage-customers__edit" onClick={() => startEdit(c)}>
-                  Edit
-                </button>
-                <button className="manage-customers__delete" onClick={() => deleteCustomer(c.id)}>
-                  Delete
-                </button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+                    <Button
+                      variant="contained"
+                      color="error"
+                      size="small"
+                      startIcon={<DeleteIcon />}
+                      onClick={() => deleteCustomer(c.id)}
+                    >
+                      Delete
+                    </Button>
+                  </Stack>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+
+      {/* Dialog for Create/Edit */}
+      <Dialog open={open} onClose={() => setOpen(false)}>
+        <DialogTitle>
+          {editingId ? "Edit Customer" : "New Customer"}
+        </DialogTitle>
+
+        <Box
+          component="form"
+          sx={{ '& > :not(style)': { m: 1, width: '25ch' } }}
+          noValidate
+          autoComplete="off"
+        >
+          <TextField id="outlined-basic" label="Username" variant="outlined" />
+          <TextField id="filled-basic" label="Email" variant="outlined" />
+        </Box>
+
+        <DialogActions>
+          <Button onClick={() => setOpen(false)}>Cancel</Button>
+          <Button variant="contained" onClick={handleSave}>
+            {editingId ? "Update" : "Create"}
+          </Button>
+        </DialogActions>
+      </Dialog>
     </div>
   );
 };
