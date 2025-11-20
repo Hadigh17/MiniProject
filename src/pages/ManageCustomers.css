@@ -1,0 +1,27 @@
+.manage-customers {
+  padding: 30px;
+}
+
+.manage-customers__title {
+  margin-bottom: 20px;
+}
+
+.manage-customers__table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.manage-customers__th,
+.manage-customers__td {
+  padding: 12px;
+  border-bottom: 1px solid #334155;
+}
+
+.manage-customers__edit {
+  margin-right: 8px;
+}
+
+.manage-customers__delete {
+  background: red;
+  color: white;
+}

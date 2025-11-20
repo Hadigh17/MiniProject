@@ -1,0 +1,19 @@
+.customers-list {
+  padding: 30px;
+}
+
+.customers-list__title {
+  margin-bottom: 20px;
+}
+
+.customers-list__table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.customers-list__th,
+.customers-list__td {
+  padding: 12px;
+  border-bottom: 1px solid #334155;
+}

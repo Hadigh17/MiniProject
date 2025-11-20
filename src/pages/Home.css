@@ -1,0 +1,47 @@
+.home {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #0f172a;
+}
+
+.home__card {
+  width: 400px;
+  padding: 30px;
+  border-radius: 16px;
+  background: #0b1220;
+  color: #e2e8f0;
+  text-align: center;
+  box-shadow: 0 10px 40px rgba(0,0,0,.4);
+}
+
+.home__title {
+  margin-bottom: 20px;
+}
+
+.home__btn {
+  width: 100%;
+  padding: 15px;
+  border-radius: 10px;
+  border: none;
+  font-weight: 700;
+  cursor: pointer;
+  margin-bottom: 12px;
+}
+
+.home__btn--primary {
+  background: #38bdf8;
+  color: #000;
+}
+
+.home__btn--secondary {
+  background: #22c55e;
+  color: #000;
+}
+
+.home__btn--logout {
+  background: #ef4444;
+  color: white;
+  margin-top: 10px;
+}
