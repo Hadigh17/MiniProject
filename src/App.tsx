@@ -14,7 +14,7 @@ const App: React.FC = () => {
     <Navbar />
     <Routes>
       <Route
-        path="/"
+        path="/home"
         element={
           <PrivateRoute>
             <Home />
@@ -41,7 +41,7 @@ const App: React.FC = () => {
       />
 
       
-      <Route path="/login" element={<Login />} />
+      <Route path="/" element={<Login />} />
       <Route path="/register" element={<Register />} />
 
       

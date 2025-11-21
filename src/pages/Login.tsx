@@ -25,7 +25,7 @@ const Login: React.FC = () => {
     setErr("");
     try {
       await login(form);
-      nav("/", { replace: true });
+      nav("/home", { replace: true });
     } catch (ex: any) {
       setErr(ex?.response?.data ?? "Login failed");
     }

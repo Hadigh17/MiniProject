@@ -26,7 +26,7 @@ const Register: React.FC = () => {
     setErr("");
     try {
       await register(form);
-      nav("/", { replace: true });
+      nav("/home", { replace: true });
     } catch (ex: any) {
       setErr(ex?.response?.data ?? "Register failed");
     }
@@ -69,7 +69,7 @@ const Register: React.FC = () => {
         <button className="register__btn">Sign up</button>
 
         <p className="register__bottom">
-          Already have an account? <Link to="/login">Login</Link>
+          Already have an account? <Link to="/">Login</Link>
         </p>
       </form>
     </div>
