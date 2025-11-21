@@ -40,11 +40,11 @@ const App: React.FC = () => {
         }
       />
 
-      {/* Auth */}
+      
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
 
-      {/* fallback */}
+      
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
     </>

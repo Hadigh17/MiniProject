@@ -138,8 +138,8 @@ const ManageCustomers: React.FC = () => {
           noValidate
           autoComplete="off"
         >
-          <TextField id="outlined-basic" label="Username" variant="outlined" />
-          <TextField id="filled-basic" label="Email" variant="outlined" />
+          <TextField id="outlined-basic" label="Username" name="name" value={form.name} onChange={(e)=> setForm({...form, name: e.target.value})} fullWidth variant="outlined" />
+          <TextField id="filled-basic" label="Email" name="email" value={form.email}   onChange={(e) => setForm({ ...form, email: e.target.value })} fullWidth variant="outlined" />
         </Box>
 
         <DialogActions>
