@@ -19,7 +19,7 @@ import { useAuth } from '../auth/AuthContext';
 
 const drawerWidth = 240;
 const navItems = [
-  { label: "Home", path: "/" },
+  { label: "Home", path: "/home" },
   { label: "View Customers", path: "/customers" },
   { label: "Manage Customers", path: "/customers/manage" },
 ];
