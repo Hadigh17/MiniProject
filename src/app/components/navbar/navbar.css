@@ -1,0 +1,3 @@
+.nav { display: flex; }
+.nav__title { cursor: pointer; font-weight: 700; }
+.nav__spacer { flex: 1; }

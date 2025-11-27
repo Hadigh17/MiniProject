@@ -1,0 +1,30 @@
+.home {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: #0f172a;
+}
+
+.home__card {
+  width: 380px;
+  padding: 32px;
+  border-radius: 16px;
+  background: #0b1220;
+  text-align: center;
+  color: #e2e8f0;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.4);
+}
+
+.home__title {
+  margin-bottom: 24px;
+}
+
+.home__btn {
+  width: 100%;
+  margin-bottom: 14px;
+}
+
+.home__logout {
+  margin-top: 20px;
+}
